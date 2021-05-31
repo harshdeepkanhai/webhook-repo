@@ -1,6 +1,6 @@
 # Mongo Webhook
 
-A flask application to capture webhook from github when pushed, pull_requested or merged to [actio-repo](https://github.com/harshdeepkanhai/action-repo)
+A flask application to capture webhook from github when pushed, pull_requested or merged to [action-repo](https://github.com/harshdeepkanhai/action-repo)
 
 ## Steps
 ------------
