@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="15" />
+    <title>Git Webhook demo </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <ul class="gitlist">
+    {% for activity in github: %}
+        {% if activity.action == "PUSH": %}
+            <li class="git-activity"><span class="type-0">PUSH: </span><span> <span class="author">{{ activity.author }}</span> pushed to <span class="to">{{ activity.to_branch}}</span> on {{ activity.timestamp }}</li>
+        {% elif activity.action == "PULL_REQUEST": %}
+            <li class="git-activity"><span class="type-1">PULL_REQUEST: </span><span class="author">{{ activity.author }}</span> submitted a pull request from <span class="from">{{ activity.from_branch }}</span> to <span class="to">{{ activity.to_branch}}</span> on  on {{ activity.timestamp }}</li>
+        {% elif activity.action == "MERGE": %}
+            <li class="git-activity"><span class="type-2">MERGE: </span><span><span class="author">{{ activity.author }}</span> merged branch from <span class="from">{{ activity.from_branch }}</span> to <span class="to">{{ activity.to_branch}}</span> on {{ activity.timestamp }}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</body>
+</html>

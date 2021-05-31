@@ -1,0 +1,51 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.gitlist {
+    padding: 40px;
+    margin: auto;
+    width: 50%;
+}
+
+.git-activity {
+    padding-top: 10px;
+    border-radius: 5px;
+    background-color: rgb(245, 142, 142);
+    list-style: none;
+}
+
+.type-0 {
+    color: green;
+    font-weight: bolder;
+}
+
+.type-1 {
+    color: #f85149;
+    font-weight: bolder;
+}
+
+.type-2 {
+    color: #a371f7;
+    font-weight: bolder;
+}
+
+.author {
+    color: green;
+}
+
+.from {
+    color: rebeccapurple;
+}
+
+.to {
+    color: rebeccapurple;
+}
+
+
