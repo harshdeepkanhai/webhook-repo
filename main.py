@@ -18,7 +18,7 @@ def custom_strftime(format, t):
 
 @app.route('/')
 def api_root():
-    return 'Welcome guys'
+    return 'Welcome guys Use the /home endpoint to see the repo activity'
 
 @app.route('/home')
 def home():
