@@ -11,41 +11,60 @@ body {
 .gitlist {
     padding: 40px;
     margin: auto;
-    width: 50%;
+    width: 90%;
 }
 
 .git-activity {
-    padding-top: 10px;
-    border-radius: 5px;
-    background-color: rgb(245, 142, 142);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgb(216, 127, 127);
     list-style: none;
+    color: white;
+    line-height: 2;
+    margin: 10px 60px;
 }
 
 .type-0 {
-    color: green;
+    background-color: green;
     font-weight: bolder;
+    padding: 10px;
+    margin-right: 20px;
 }
 
 .type-1 {
-    color: #f85149;
+    background-color: #f85149;
     font-weight: bolder;
+    padding: 10px;
+    margin-right: 20px;
 }
 
 .type-2 {
-    color: #a371f7;
+    background-color: #a371f7;
     font-weight: bolder;
+    padding: 10px;
+    margin-right: 20px;
 }
 
 .author {
-    color: green;
+    border-radius: 5px;
+    background-color: rgb(204, 84, 84);
+    padding: 10px;
 }
 
 .from {
-    color: rebeccapurple;
+    border-radius: 5px;
+    background-color: rgb(226, 100, 100);
+    padding: 10px;
 }
 
 .to {
-    color: rebeccapurple;
+    border-radius: 5px;
+    background-color: rgb(228, 72, 72);
+    padding: 10px;
 }
 
-
+.datetime {
+    border-radius: 5px;
+    background-color: rgb(250, 0, 0);
+    padding: 10px;
+}

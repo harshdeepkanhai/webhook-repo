@@ -1,12 +1,20 @@
 from flask import json,render_template, request, Flask
 import flask
 from pymongo import MongoClient
-client = MongoClient()
+from dateutil.parser import parse
+from datetime import datetime as dt
+
 client = MongoClient('mongodb+srv://admin:admin@kanhai-cluster.fio7e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
 db = client.github
 githook = db.githook
 enum = ["PUSH","PULL_REQUEST","MERGE"]
 app = Flask(__name__)
+
+def suffix(d):
+    return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
+
+def custom_strftime(format, t):
+    return t.strftime(format).replace('{S}', str(t.day) + suffix(t.day))
 
 @app.route('/')
 def api_root():
@@ -14,9 +22,9 @@ def api_root():
 
 @app.route('/home')
 def home():
-   
-    github = githook.find({})
-    return render_template('index.html', github=github)
+    github = githook.find()
+    print(github)
+    return render_template('index.html', github=github, custom_strftime=custom_strftime, fromisoformat=dt.fromisoformat, parse=parse)
 
 @app.route('/webhook', methods=['POST'])
 def api_webhook():
