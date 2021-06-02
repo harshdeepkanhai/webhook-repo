@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <title>Git Webhook demo </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <ul class="gitlist" id="gitlist">
+    {% for activity in github: %}
+        {% if activity.action == "PUSH": %}
+            <li class="git-activity"><span class="type-0">PUSH: </span><span> <span class="author">{{ activity.author }}</span> pushed to <span class="to">{{ activity.to_branch}}</span> on <span class="datetime">{{ custom_strftime('{S} %B %Y - %I:%M %p %Z',activity.timestamp) }} UTC</span></li>
+        {% elif activity.action == "PULL_REQUEST": %}
+            <li class="git-activity"><span class="type-1">PULL_REQUEST: </span><span class="author">{{ activity.author }}</span> submitted a pull request from <span class="from">{{ activity.from_branch }}</span> to <span class="to">{{ activity.to_branch}}</span> on <span class="datetime">{{ custom_strftime('{S} %B %Y - %I:%M %p %Z',activity.timestamp) }} UTC</span></li>
+        {% elif activity.action == "MERGE": %}
+            <li class="git-activity"><span class="type-2">MERGE: </span><span><span class="author">{{ activity.author }}</span> merged branch from <span class="from">{{ activity.from_branch }}</span> to <span class="to">{{ activity.to_branch}}</span> on <span class="datetime">{{ custom_strftime('{S} %B %Y - %I:%M %p %Z',activity.timestamp) }} UTC</span></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    <script>
+        var xhttp = new XMLHttpRequest()
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("gitlist")
+            }
+        }
+    </script>
+</body>
+</html>
