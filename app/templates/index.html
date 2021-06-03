@@ -18,12 +18,26 @@
     </ul>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
-        var xhttp = new XMLHttpRequest()
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("gitlist")
-            }
-        }
+        $(function(){
+ 
+           setInterval(get_git_data, 15000);
+    });
+
+    function get_git_data() {
+        var git_data = $.ajax({
+                url: '/get_git_data',
+                type: 'GET',
+                success: function(response){
+                    for (var i = 0; i<response.length;i++)
+                    $('#gitlist').append(
+                        response[i]
+                    )
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+    }
     </script>
 </body>
 </html>

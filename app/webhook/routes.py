@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, jsonify
 import flask
 from app.extensions import githook
 from dateutil.parser import parse
@@ -20,9 +20,22 @@ ui = Blueprint('Home', __name__, url_prefix='')
 
 @ui.route('/home')
 def home():
+    return render_template('index.html')
+
+@ui.route('/get_git_data')
+def get_git_data():
     githook.delete_many({"timestamp": { "$lte": dt.now() - timedelta(seconds=100)}})
-    github = githook.find({"timestamp": { "$gte": dt.now() - timedelta(seconds=1000000)}}).sort([("timestamp",-1),])
-    return render_template('index.html', github=github, custom_strftime=custom_strftime, parse=parse)
+    github_data = githook.find({"timestamp": { "$gte": dt.now() - timedelta(seconds=1000000)}}).sort([("timestamp",-1),])
+    github_actions_list = []
+    for activity in github_data:
+        if activity.action == "PUSH":
+            github_actions_list.append(f'<li class="git-activity"><span class="type-0">PUSH: </span><span> <span class="author">{activity.author }</span> pushed to <span class="to">{activity.to_branch}</span> on <span class="datetime">{ custom_strftime("{S} %B %Y - %I:%M %p %Z",activity.timestamp) } UTC</span></li>')
+        elif activity.action == "PULL_REQUEST":
+            github_actions_list.append(f'<li class="git-activity"><span class="type-1">PULL_REQUEST: </span><span class="author">{ activity.author }</span> submitted a pull request from <span class="from">{ activity.from_branch }</span> to <span class="to">{ activity.to_branch}</span> on <span class="datetime">{ custom_strftime("{S} %B %Y - %I:%M %p %Z",activity.timestamp) } UTC</span></li>')
+        elif activity.action == "MERGE":
+            github_actions_list.append(f'<li class="git-activity"><span class="type-2">MERGE: </span><span><span class="author">{activity.author }</span> merged branch from <span class="from">{ activity.from_branch }</span> to <span class="to">{ activity.to_branch}</span> on <span class="datetime">{ custom_strftime("{S} %B %Y - %I:%M %p %Z",activity.timestamp) } UTC</span></li>')
+
+    return github_data
 
 @webhook.route('/receiver', methods=["POST"])
 def api_webhook():
@@ -60,5 +73,4 @@ def api_webhook():
                 }
     githook.insert_one(mongo_push_data)
     status_code = flask.Response(status=201)
-    github = githook.find({"timestamp": { "$gte": dt.now() - timedelta(seconds=1000000)}}).sort([("timestamp",-1),])
-    return render_template('index.html', github=github, custom_strftime=custom_strftime, parse=parse), status_code
+    return status_code
